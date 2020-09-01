@@ -16,5 +16,6 @@ function run() {
 }
 
 trap stop SIGTERM
+trap stop SIGINT
 
 "$@"
