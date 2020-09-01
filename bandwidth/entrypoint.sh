@@ -7,6 +7,6 @@ if [[ "$rate" -gt "$LOW_LIMIT" ]]; then
 	echo "Rate $rate MB is acceptable."
 	exit 0;
 else
-	echo "Rate $rate MB is too low. Threshold is $LOW_LIMIT"
+	echo "Rate $rate MB is too low. Threshold is $LOW_LIMIT MB"
 	exit "$rate"
 fi
