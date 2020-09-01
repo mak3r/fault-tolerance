@@ -19,7 +19,7 @@ function stop() {
 function run() {
 	while [[ "$LIMITED" -ne "0" ]]; do
 		rate=$(check)
-		if (( $(echo "$rate > -1" | bc -l) )); then
+		if (( $(echo "$rate == -1" | bc -l) )); then
 			echo Unable to get bandwidth value.
 			sleep 5
 			LIMITED=1
