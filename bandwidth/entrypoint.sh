@@ -12,7 +12,7 @@ function stop() {
 }
 
 function run() {
-	rate=check
+	rate=$(check)
 	while [[ "$LIMITED" -ne "0" ]]; do
 		if (( $(echo "$rate > $LOW_LIMIT" | bc -l) )); then
 			LIMITED=0
@@ -26,6 +26,6 @@ function run() {
 }
 
 trap stop SIGINT
-trap stop SIGKILL
+trap stop SIGTERM
 
 run
