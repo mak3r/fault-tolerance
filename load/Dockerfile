@@ -4,7 +4,7 @@ RUN apk update && apk upgrade
 RUN apk add curl bash
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-COPY readiness.sh /usr/local/bin/readiness.sh
+COPY liveness.sh /usr/local/bin/liveness.sh
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
