@@ -1,7 +1,7 @@
 FROM alpine:3.12
 
 RUN apk update && apk upgrade
-RUN apk install curl
+RUN apk add curl
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
