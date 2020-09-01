@@ -44,6 +44,12 @@ spec:
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         tty: true
+        readinessProbe:
+          exec:
+            command:
+              - /usr/local/bin/readiness.sh
+          initialDelaySeconds: 20
+          periodSeconds: 5
       dnsConfig: {}
       dnsPolicy: ClusterFirst
       restartPolicy: Always
