@@ -9,4 +9,4 @@ publish : build
 	docker push $(REPOSITORY)/$(IMAGE):$(TAG)
 
 test : build
-	docker run -it --rm --name $(IMAGE) $(REPOSITORY)/$(IMAGE):local
+	docker run --rm --name $(IMAGE) $(REPOSITORY)/$(IMAGE):local
