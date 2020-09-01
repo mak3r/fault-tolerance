@@ -13,11 +13,17 @@ metadata:
   namespace: fault-tolerance
 spec:
   revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      demo: daemonSet-fault-tolerance-speed-limit
   template:
+    metadata:
+      labels: 
+        demo: daemonSet-fault-tolerance-speed-limit
     spec:
       initContainers:
       - args:
-        - 10
+        - "10"
         image: mak3r/bandwidth:v0.1.0
         imagePullPolicy: IfNotPresent
         name: bw
