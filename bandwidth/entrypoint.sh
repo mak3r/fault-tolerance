@@ -12,8 +12,8 @@ function stop() {
 }
 
 function run() {
-	rate=$(check)
 	while [[ "$LIMITED" -ne "0" ]]; do
+		rate=$(check)
 		if (( $(echo "$rate > $LOW_LIMIT" | bc -l) )); then
 			LIMITED=0
 			echo "Rate $rate MB/s is acceptable."
