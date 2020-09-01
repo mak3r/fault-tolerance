@@ -4,7 +4,12 @@ LIMITED=1
 LOW_LIMIT=$1
 
 function check() {
-	echo "scale=2; $(speedtest --no-upload --csv --csv-delimiter '|' | cut -d '|' -f 7)/8388608" | bc -l	
+	speed=$(echo "scale=2; $(speedtest --no-upload --csv --csv-delimiter '|' | cut -d '|' -f 7)/8388608" | bc -l)
+	if [[ "$?" -ne "0" ]]; then
+		echo "-1"
+	else
+		echo $speed
+	fi
 }
 
 function stop() {
@@ -14,7 +19,11 @@ function stop() {
 function run() {
 	while [[ "$LIMITED" -ne "0" ]]; do
 		rate=$(check)
-		if (( $(echo "$rate > $LOW_LIMIT" | bc -l) )); then
+		if [[ "$rate" -eq "-1" ]]; then
+			echo Unable to get bandwidth value.
+			sleep 5
+			LIMITED=1
+		elif (( $(echo "$rate > $LOW_LIMIT" | bc -l) )); then
 			LIMITED=0
 			echo "Rate $rate MB/s is acceptable."
 		else
