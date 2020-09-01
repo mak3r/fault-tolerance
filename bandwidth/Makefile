@@ -8,5 +8,10 @@ publish : build
 	docker tag $(REPOSITORY)/$(IMAGE):local $(REPOSITORY)/$(IMAGE):$(TAG)
 	docker push $(REPOSITORY)/$(IMAGE):$(TAG)
 
+#standalone test
 test : build
 	docker run --rm --name $(IMAGE) $(REPOSITORY)/$(IMAGE):local
+
+#interactive test	
+testint : build
+	docker run -it --rm --name $(IMAGE) --entrypoint /bin/bash $(REPOSITORY)/$(IMAGE):local
