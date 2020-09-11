@@ -10,3 +10,7 @@ publish : build
 
 test : build
 	docker run --rm --name $(IMAGE) $(REPOSITORY)/$(IMAGE):local
+
+#interactive test	
+testint : build
+	docker run -it --rm --name $(IMAGE) --entrypoint /bin/bash $(REPOSITORY)/$(IMAGE):local
