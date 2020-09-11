@@ -19,6 +19,12 @@ function start() {
 
 function run() {
 	echo "run() - process to load"
+	# We know that the container wont start unless the init container succeds 
+	#   so we set the status to OK to start
+	# An alternative would be to setup a readiness probe to populate the 
+	#   load status when it's ready.
+	echo "$OK" > /etc/ft-load-status
+
 	bandwidth=$(cat /etc/ft-load-status)
 	if [ "$bandwidth" == "$LOW" ]; then
 		stop
