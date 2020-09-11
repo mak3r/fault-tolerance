@@ -12,9 +12,19 @@ function stop() {
 function start() {
 	echo "Start creating download traffic"
 	while [[ $STARTED -gt 0 ]]; do
-		sleep 1;
 		curl -sfL --insecure https://cncf.io > /dev/null
+		sleep 1;
+		check
 	done
+}
+
+function check() {
+	bandwidth=$(cat /etc/ft-load-status)
+	if [ "$bandwidth" == "$LOW" ]; then
+		stop
+	elif [ "$bandwidth" == "$OK" ]; then
+		start
+	fi
 }
 
 function run() {
@@ -24,13 +34,7 @@ function run() {
 	# An alternative would be to setup a readiness probe to populate the 
 	#   load status when it's ready.
 	echo "$OK" > /etc/ft-load-status
-
-	bandwidth=$(cat /etc/ft-load-status)
-	if [ "$bandwidth" == "$LOW" ]; then
-		stop
-	elif [ "$bandwidth" == "$OK" ]; then
-		start
-	fi
+	check
 }
 
 trap stop SIGTERM
