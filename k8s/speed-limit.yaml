@@ -23,7 +23,7 @@ spec:
     spec:
       initContainers:
       - args:
-        - "10"
+        - "4"
         image: mak3r/bandwidth:v0.1.0
         imagePullPolicy: IfNotPresent
         name: bw
@@ -48,8 +48,10 @@ spec:
           exec:
             command:
               - /usr/local/bin/liveness.sh
+              - "4"
           initialDelaySeconds: 20
           periodSeconds: 5
+          timeoutSeconds: 30
       dnsConfig: {}
       dnsPolicy: ClusterFirst
       restartPolicy: Always

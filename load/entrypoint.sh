@@ -1,28 +1,22 @@
 #!/bin/bash
 
-STARTED=1
+RUNNING=1
 LOW="low"
 OK="ok"
 
 function stop() {
-	echo "Stop generating traffic"
-	STARTED=0;
+	RUNNING=0;
 }
 
-function start() {
-	echo "Start creating download traffic"
-	while [[ $STARTED -gt 0 ]]; do
-		curl -sfL --insecure https://cncf.io > /dev/null
-		sleep 1;
-		check
-	done
+function pause() {
+	echo "Stopped generating traffic"
+	sleep 5;
 }
 
-function check() {
-	bandwidth=$(cat /etc/ft-load-status)
-	if [ "$bandwidth" == "$LOW" ]; then
-		stop
-	fi
+function dl() {
+	echo "Downloading content"
+	curl -sfL --insecure https://cncf.io > /dev/null
+	sleep 1;
 }
 
 function run() {
@@ -32,12 +26,14 @@ function run() {
 	# An alternative would be to setup a readiness probe to populate the 
 	#   load status when it's ready.
 	echo "$OK" > /etc/ft-load-status
-	bandwidth=$(cat /etc/ft-load-status)
-	if [ "$bandwidth" == "$LOW" ]; then
-		stop
-	elif [ "$bandwidth" == "$OK" ]; then
-		start
-	fi
+	while [ $RUNNING -gt 0 ]; do
+		bandwidth=$(cat /etc/ft-load-status)
+		if [ "$bandwidth" == "$LOW" ]; then
+			pause
+		elif [ "$bandwidth" == "$OK" ]; then
+			dl
+		fi
+	done
 }
 
 trap stop SIGTERM
