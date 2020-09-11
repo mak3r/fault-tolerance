@@ -22,7 +22,7 @@ function run() {
 	bandwidth=$(cat /etc/ft-load-status)
 	if [ "$bandwidth" == "$LOW" ]; then
 		stop
-	if [ "$bandwidth" == "$OK" ]; then
+	elif [ "$bandwidth" == "$OK" ]; then
 		start
 	fi
 }
