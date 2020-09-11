@@ -22,8 +22,6 @@ function check() {
 	bandwidth=$(cat /etc/ft-load-status)
 	if [ "$bandwidth" == "$LOW" ]; then
 		stop
-	elif [ "$bandwidth" == "$OK" ]; then
-		start
 	fi
 }
 
@@ -34,7 +32,12 @@ function run() {
 	# An alternative would be to setup a readiness probe to populate the 
 	#   load status when it's ready.
 	echo "$OK" > /etc/ft-load-status
-	check
+	bandwidth=$(cat /etc/ft-load-status)
+	if [ "$bandwidth" == "$LOW" ]; then
+		stop
+	elif [ "$bandwidth" == "$OK" ]; then
+		start
+	fi
 }
 
 trap stop SIGTERM
