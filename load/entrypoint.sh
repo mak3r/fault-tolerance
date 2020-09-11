@@ -16,7 +16,7 @@ function pause() {
 function dl() {
 	echo "Downloading content"
 	curl -sfL --insecure https://cncf.io > /dev/null
-	sleep 1;
+	sleep 5;
 }
 
 function run() {
